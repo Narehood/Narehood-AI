@@ -33,6 +33,28 @@
 - Treat explicit user stop points as hard boundaries. Stop at the requested
   milestone and wait before starting the next phase.
 
+## Pull requests
+
+Unless the user explicitly says not to, or the change cannot produce a
+reviewable result:
+
+1. Work on a feature branch (not the default branch directly).
+2. Keep the branch synced with the base branch and resolve merge conflicts
+   before asking for review.
+3. Open or update a pull request after pushing meaningful work.
+4. If the host reports merge conflicts on the PR, fix them on the branch and
+   push again until the PR is mergeable.
+
+## Blocked by keys or auth
+
+If a task is blocked by a missing secret, API key, login, 2FA, or dashboard
+permission on the human's side:
+
+1. Stop. Do not invent workarounds that ship a degraded product.
+2. Ask clearly for the exact credential or action needed.
+3. Wait for the human before continuing expensive work (paid builds, store
+   submits, production deploys).
+
 ## Scope selection
 
 - Use `AGENTS.md` for durable repository conventions.
