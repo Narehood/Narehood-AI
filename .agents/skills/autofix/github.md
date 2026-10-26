@@ -21,21 +21,39 @@ repository matches this target before commenting, reacting, or resolving threads
 
 ## 1. Resolve Current PR
 
-Resolve the current branch's associated PR, or pass the user's exact PR URL
-as an argument to `gh pr view` when one was supplied. Verify its head repository,
-branch, and commit against the intended local work before acting. Do not select
-the first result of a branch-name search: forks can share branch names.
+When the user supplies an exact PR URL, pass it to `gh pr view` and treat any
+lookup failure as an error. For branch lookup, set `target_repo` to the verified
+base repository and `head_repo` and `head_branch` to the verified source. A
+successful empty list establishes that no open PR exists; a lookup or
+authentication failure does not. Match the source repository and branch rather
+than taking the first branch-name result, since forks can share branch names.
 
 ```bash
-if ! pr_json=$(gh pr view --json number,url,headRefName,headRefOid,headRepository,headRepositoryOwner); then
-  printf '%s\n' 'Could not resolve the intended PR; do not continue with thread operations.' >&2
+: "${target_repo:?Set the verified base owner/name}"
+: "${head_repo:?Set the verified source owner/name}"
+: "${head_branch:?Set the verified source branch}"
+if ! candidates=$(gh pr list --repo "$target_repo" --head "$head_branch" --state open \
+  --json number,url,headRefName,headRefOid,headRepository,headRepositoryOwner); then
+  printf '%s\n' 'PR lookup failed; do not assume no PR exists or create one.' >&2
   exit 1
 fi
-pr_number=$(jq -er '.number | select(type == "number" and . > 0)' <<<"$pr_json") || exit 1
-pr_url=$(jq -er '.url | select(type == "string" and length > 0)' <<<"$pr_json") || exit 1
+matches=$(jq -c --arg head_repo "$head_repo" --arg head_branch "$head_branch" '
+  [.[] | select(.headRepository.nameWithOwner == $head_repo and .headRefName == $head_branch)]
+' <<<"$candidates") || exit 1
+case $(jq -r 'length' <<<"$matches") in
+  0) pr_json=""; pr_number=""; pr_url="" ;;
+  1)
+    pr_json=$(jq -c '.[0]' <<<"$matches") || exit 1
+    pr_number=$(jq -er '.number | select(type == "number" and . > 0)' <<<"$pr_json") || exit 1
+    pr_url=$(jq -er '.url | select(type == "string" and length > 0)' <<<"$pr_json") || exit 1
+    ;;
+  *) printf '%s\n' 'Multiple matching PRs; resolve the intended URL before continuing.' >&2; exit 1 ;;
+esac
 ```
 
-If no PR exists, report that for read-only or local-only work. As an alternative,
+Verify the resolved PR's head repository, branch, and commit against the intended
+local work before acting. If `pr_json` is empty, do not run thread operations:
+report the no-PR state for read-only or local-only work. As an alternative,
 when creation is authorized and local gates pass, prepare a title and a UTF-8
 body file describing the actual change and validation. Use the resulting URL to
 resolve the newly created PR before continuing:

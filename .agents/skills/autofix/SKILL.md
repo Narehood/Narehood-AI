@@ -27,8 +27,9 @@ code that must be inspected independently.
 
 ## Prerequisites
 
-Require `git`, `gh`, an authenticated GitHub session, an open PR for the current
-branch, and a clean understanding of applicable `AGENTS.md` instructions.
+Require `git`, `gh`, an authenticated GitHub session, and a clean understanding
+of applicable `AGENTS.md` instructions. An open PR is required for remote-thread
+operations, not for local preparation or an authorized no-PR creation path.
 
 Before editing:
 
@@ -36,7 +37,9 @@ Before editing:
 2. Run `git status --short` and compare local HEAD with the remote branch.
 3. Preserve unrelated changes. If they cannot be isolated safely, stop and ask
    for direction.
-4. Resolve the current PR and exact head SHA.
+4. Resolve the current PR and exact head SHA when a PR exists. Otherwise record
+   the intended branch and local HEAD. A lookup or authentication failure does
+   not establish that no PR exists.
 
 If commits are unpushed, compare local changes with the remote head and check
 whether they already address the feedback. Push only with authorization; do not
