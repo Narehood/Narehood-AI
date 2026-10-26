@@ -91,8 +91,9 @@ For each review cycle:
 6. For a local-only request, report the commit and validation, then stop at
    that milestone. For an authorized published loop, push the current branch.
 7. When authorized, reply to handled threads with a local summary and commit SHA.
-8. When authorized, resolve threads fixed or invalidated with evidence, or
-   made outdated by the pushed change.
+8. When authorized, resolve threads only after independently verifying that
+   the underlying finding is fixed or invalidated with evidence. A push or
+   GitHub's outdated flag alone does not prove the finding was addressed.
 9. Re-fetch the PR head, required checks, reviews, and unresolved threads.
 
 Do not claim success when validation or push fails. Fix an in-scope failure and

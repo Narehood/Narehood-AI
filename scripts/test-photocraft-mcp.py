@@ -118,6 +118,13 @@ def check(client, root):
     client.call("doc_export", {"path": "../outside.png"}, fail=True)
     client.call("doc_export", {"path": str(outside)}, fail=True)
     assert outside.read_bytes() == before, "Out-of-root file was changed"
+    # A new destination must be denied too; overwrite refusal alone is not proof.
+    new_outside = root.parent / "outside-export.png"
+    assert not new_outside.exists()
+    client.call("doc_export", {"path": "../outside-export.png"}, fail=True)
+    assert not new_outside.exists(), "Relative out-of-root export created a file"
+    client.call("doc_export", {"path": str(new_outside)}, fail=True)
+    assert not new_outside.exists(), "Absolute out-of-root export created a file"
     client.call("command_run", {"id": "not.a.command"}, fail=True)
     client.call("doc_inspect", {})  # Rejections must leave the session usable.
     print(f"PhotoCraft MCP passed: {len(names)} tools; shapes, preview, export, reopen, root restrictions")

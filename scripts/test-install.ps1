@@ -92,6 +92,19 @@ EXAMPLE_RUNTIME_PATH = "example"
     $installedConfig = Get-Item -LiteralPath $installedConfigPath -Force
     Assert-Condition ($installedConfig.LinkType -ne 'SymbolicLink') "Expected generated config file: $installedConfigPath"
     $installedConfigContent = [System.IO.File]::ReadAllText($installedConfigPath)
+    $photocraftSettings = [regex]::Match(
+        $installedConfigContent,
+        '(?ms)^\[mcp_servers\.photocraft\]\r?\n(?<settings>.*?)(?=^\[|\z)'
+    ).Groups['settings'].Value
+    foreach ($expectedSetting in @(
+        'command = "photocraft-cli"',
+        'args = ["mcp", "--automation-read-root", ".", "--automation-write-root", "."]',
+        'required = false'
+    )) {
+        Assert-Condition (
+            [regex]::IsMatch($photocraftSettings, "(?m)^$([regex]::Escape($expectedSetting))`r?$")
+        ) "Generated config is missing a default PhotoCraft setting: $expectedSetting"
+    }
     $escapedGitHubRoot = (Join-Path $testUserHome 'github').Replace('\', '\\')
     $escapedGitHubRepo = $testGitHubRepo.Replace('\', '\\')
     Assert-Condition (

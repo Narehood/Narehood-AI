@@ -94,6 +94,22 @@ if [[ -n "$python_cmd" ]]; then
     "$test_codex_home/config.toml" || fail "generated config is invalid TOML"
   "$python_cmd" -c 'import pathlib, sys; tomllib = __import__("tomllib" if sys.version_info >= (3, 11) else "tomli"); config = tomllib.loads(pathlib.Path(sys.argv[1]).read_text()); raise SystemExit(config.get("features", {}).get("fast_mode") is not False)' \
     "$test_codex_home/config.toml" || fail "generated config must disable features.fast_mode by default"
+  if ! "$python_cmd" - "$test_codex_home/config.toml" <<'PY'
+import pathlib
+import sys
+
+tomllib = __import__("tomllib" if sys.version_info >= (3, 11) else "tomli")
+config = tomllib.loads(pathlib.Path(sys.argv[1]).read_text())
+server = config.get("mcp_servers", {}).get("photocraft", {})
+assert server.get("command") == "photocraft-cli", "PhotoCraft command missing"
+assert server.get("args") == [
+    "mcp", "--automation-read-root", ".", "--automation-write-root", "."
+], "PhotoCraft roots differ from the startup directory"
+assert server.get("required") is False, "PhotoCraft must remain optional"
+PY
+  then
+    fail "generated config must enable the optional default PhotoCraft server"
+  fi
 fi
 for preserved_line in \
   'notify = [' \

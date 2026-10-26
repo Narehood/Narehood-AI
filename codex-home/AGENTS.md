@@ -51,8 +51,9 @@
 
 - Explicit user instructions take precedence over skill guidelines within
   system and developer constraints. Skills do not grant permission to publish,
-  send messages, change security settings, or expand the task. Reuse existing
-  authorization; ask only about material unresolved choices. If a skill causes
+  send messages, change security settings, or expand the task. Reuse authorization
+  only for the operations and targets it covers; obtain new authorization before
+  expanding that scope. Ask only about material unresolved choices. If a skill causes
   a pause or scope change, link it, quote the rule, and explain its application.
 - Match the requested action mode. `Inspect`, `review`, `diagnose`, and `report`
   authorize investigation and reporting, not implementation. `Fix`, `update`,

@@ -12,13 +12,9 @@ tool requirements.
 
 ## Connection and scope
 
-The Narehood AI default configuration starts the server with read and write roots
-set to its startup directory. Install the CLI, rerun the Narehood AI installer to
-link this skill and refresh configuration, then restart Codex. No profile is
-needed for ordinary CLI or desktop sessions. The optional
-`codex --profile photocraft` makes a missing server a startup error. For another client,
-configure `photocraft-cli mcp --automation-read-root <artwork-directory>
---automation-write-root <artwork-directory>` using that client's MCP settings.
+Use the current MCP client's configured PhotoCraft server and confirm that its
+read and write roots cover the artwork directory. Follow that client's setup
+instructions when installation, profile selection, or restart is required.
 Use paths within the granted roots; do not broaden them to bypass a denial.
 
 If the connection is unavailable, explain the missing setup before using an

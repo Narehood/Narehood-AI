@@ -78,7 +78,9 @@ boundaries. The follow-up changes apply it as follows:
 - [Skill authoring guidance](SKILLS.md) covers invocation policy and behavioral
   evaluation cases. These cases are proposed checks, not claimed passing runs.
 
-All 17 skill entrypoints are in scope; bundled domain manuals are not an
+The upstream October snapshot covered 17 skill entrypoints. The current
+Narehood inventory also includes `frontend-design` and `photocraft`; use
+[SKILLS.md](SKILLS.md#repository-skills) for the maintained list. Bundled domain manuals are not an
 exhaustive current-version audit. Model defaults and security settings remain
 unchanged. Plugin-owned skills remain separate and may still overlap; loading
 a plugin does not supersede repository review policy.

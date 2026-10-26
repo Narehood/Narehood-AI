@@ -26,6 +26,11 @@ product decisions here so agents do not rediscover them from chat history.
 
 ## Pull requests
 
+This section grants standing authorization for task-owned branches and pull
+requests in this project's repository. Verify its exact owner and repository
+before remote writes; it does not authorize writes to upstream or unrelated
+repositories, deployments, or a broader task.
+
 Unless the user explicitly says not to, or the change cannot produce a
 reviewable result:
 
@@ -52,8 +57,9 @@ permission on the human's side:
 - Do not expose or commit credentials, sessions, private data, or environment
   files.
 - Require authorization for destructive operations, migrations, and
-  deployments; reuse authorization already given. Ask about unresolved product
-  or architecture decisions only when they materially affect the result.
+  deployments; reuse authorization only for the operations and targets it
+  covers. Ask about unresolved product or architecture decisions only when they
+  materially affect the result.
 - Do not burn expensive paid builds or deploys mid-feature; batch them after
   the feature work is ready.
 - In public repositories, never commit personal absolute paths, private deploy

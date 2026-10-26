@@ -8,6 +8,11 @@ Read-only inspection does not require publishing local commits. Creation,
 comments, reactions, and thread resolution below require authorization for
 those external actions; skip them for a local-only request.
 
+Before any remote write, set `target_repo` to the exact `owner/name` authorized
+by the user or project instructions. Do not derive authorization from GitHub's
+default repository or an upstream remote. Verify that the resolved PR's base
+repository matches this target before commenting, reacting, or resolving threads.
+
 ## Prerequisites
 
 - `gh` authenticated (`gh auth status`)
@@ -37,7 +42,8 @@ resolve the newly created PR before continuing:
 
 ```bash
 # Set title and body_file to the prepared title and existing description file.
-pr_url=$(gh pr create --title "$title" --body-file "$body_file") || exit 1
+: "${target_repo:?Set the verified, authorized owner/name before creating a PR}"
+pr_url=$(gh pr create --repo "$target_repo" --title "$title" --body-file "$body_file") || exit 1
 pr_json=$(gh pr view "$pr_url" --json number,url,headRefName,headRefOid,headRepository,headRepositoryOwner) || exit 1
 pr_number=$(jq -er '.number | select(type == "number" and . > 0)' <<<"$pr_json") || exit 1
 ```
@@ -157,6 +163,11 @@ gh pr view "$pr_url" --json comments,reviews --jq '
 Use the same `pr_url` from Section 1 so repository identity is preserved:
 
 ```bash
+: "${target_repo:?Set the verified, authorized owner/name before commenting}"
+if [ "$owner/$repo" != "$target_repo" ]; then
+  printf '%s\n' 'PR repository differs from the authorized target; do not write.' >&2
+  exit 1
+fi
 gh pr comment "$pr_url" --body "$(cat <<'EOF'
 ## Fixes Applied Successfully
 

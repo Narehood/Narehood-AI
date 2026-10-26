@@ -18,7 +18,7 @@ photocraft-cli --version
 Ensure Cargo's bin directory is on the PATH visible to Codex. It is normally
 `~/.cargo/bin` on Linux/macOS or `%USERPROFILE%\.cargo\bin` on Windows.
 If using a prebuilt binary instead, it must support `mcp` and the two
-`--automation-*-root` flags. This integration was tested with PhotoCraft 0.8.2.
+`--automation-*-root` flags. This integration was tested with PhotoCraft 0.16.0.
 
 Run the usual Narehood AI installer from this repository:
 
@@ -58,8 +58,8 @@ set the server's working directory explicitly or replace both roots with an
 absolute artwork-directory path. There is no listening port or authentication
 token in this headless configuration.
 
-Use paths relative to those roots, such as `logos/ctt.pcraft` and
-`logos/ctt.png`. PhotoCraft rejects traversal and access outside its granted
+Use paths relative to those roots, such as `logos/narehood.pcraft` and
+`logos/narehood.png`. PhotoCraft rejects traversal and access outside its granted
 roots. These roots grant read and write access throughout the chosen directory;
 they do not make overwriting an existing file harmless. Without roots,
 PhotoCraft's MCP file operations are denied.
@@ -92,7 +92,7 @@ For example, ask Codex:
 ```text
 Use the PhotoCraft MCP tools to make a blue-and-white geometric Narehood logo.
 Discover shape.create's parameters with command_list, create separate shape
-layers, render a preview, and save logos/ctt.pcraft plus logos/ctt.png.
+layers, render a preview, and save logos/narehood.pcraft plus logos/narehood.png.
 ```
 
 A minimal tool sequence is:

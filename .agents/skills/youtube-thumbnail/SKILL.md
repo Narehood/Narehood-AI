@@ -30,8 +30,8 @@ and an instantly readable subject over visual noise.
 1. Inspect the title, topic, source images, brand assets, and any reference
    thumbnails. Identify the single visual promise of the video. Before generating
    a background, establish the PhotoCraft output directory and filename unless
-   the user already supplied them. Use that basename with a `.pcraft` extension
-   in the agreed output directory.
+   the user already supplied them. Normalize the filename to a single `.pcraft`
+   suffix in the agreed output directory.
 2. Select the simplest composition that communicates that promise:
    - one subject plus a contextual background;
    - one subject plus one supporting object; or
@@ -53,7 +53,7 @@ and an instantly readable subject over visual noise.
    instead of extreme saturation. For a person, use only a soft, neutral drop
    shadow with modest opacity and blur.
 7. Save the editable document as `.pcraft` and export the final thumbnail as
-   PNG, JPEG, or WebP at 1280 x 720.
+   PNG, JPEG, or WebP at the requested dimensions, using 1280 x 720 by default.
 
 ## Image Tool Guidance
 
@@ -79,9 +79,9 @@ and an instantly readable subject over visual noise.
 
 ## Native Save Checkpoint
 
-- Use `.pcraft` for every working-document save. Save `<filename>.pcraft` in
-  the agreed output directory through the PhotoCraft MCP's `doc_save` tool
-  using its discovered schema.
+- Use `.pcraft` for every working-document save. Preserve an existing `.pcraft`
+  suffix or add it once, then save in the agreed output directory through the
+  PhotoCraft MCP's `doc_save` tool using its discovered schema.
 - Check that the destination directory is available and within the MCP read
   and write roots before generating the background. If it is not, explain the
   missing mount or MCP configuration; do not silently save elsewhere or broaden

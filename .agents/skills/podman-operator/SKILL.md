@@ -22,8 +22,7 @@ description: Build, deploy, and troubleshoot Podman services, Quadlet units, roo
 ```bash
 podman ps -a
 podman images
-podman logs <container>
-podman inspect <container>
+podman inspect --format '<needed-fields>' <container>
 podman network ls
 podman volume ls
 systemctl --user status <unit>
@@ -32,7 +31,8 @@ loginctl show-user <user>
 ```
 
 Use selected `podman inspect --format` fields for the diagnosis; full inspect
-output and logs can contain environment credentials. Do not expose secrets.
+output and logs can contain environment credentials. Read logs only as needed
+and redact secrets before sharing excerpts. Do not expose secrets.
 Use `systemctl --user` for rootless units and the system manager for rootful
 units; run only the diagnostics relevant to the failure.
 

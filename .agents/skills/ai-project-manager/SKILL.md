@@ -16,7 +16,7 @@ description: Turn repository planning docs into actionable AI-agent implementati
    and implementation impact.
 4. Match planning detail to the task. Create only requested or useful planning
    artifacts, map work to acceptance criteria, and define applicable validation
-   and rollback. Pause points come from the user or a real unresolved decision.
+   and rollback. Pause points come from the user or a material unresolved decision.
 5. Present the plan and stop when the user requested planning only or reserved
    implementation approval.
 6. Once implementation is authorized, execute one reviewable phase at a time.

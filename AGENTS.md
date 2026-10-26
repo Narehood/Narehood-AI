@@ -119,10 +119,14 @@ Read only the documents needed for the task:
 - Run `./scripts/test-install.sh` directly when diagnosing Linux or macOS
   installer behavior. Windows installer behavior is covered by
   `./scripts/test-install.ps1` in CI.
-- After the complete local gate passes for a non-trivial change, run
-  `codex review --uncommitted`. Verify every finding against the current diff,
-  fix only actionable defects, rerun affected validation, and repeat the review
-  until no actionable findings remain.
+- After the complete local gate passes for a non-trivial change, run built-in
+  Codex review with the scope that contains the change: `--uncommitted` for
+  staged, unstaged, and untracked work, `--base <target-branch>` for a committed
+  branch against its actual target, or `--commit <sha>` for one commit. Cover
+  both committed and uncommitted work when the request includes both; an empty
+  worktree review does not cover committed changes. Verify every finding,
+  fix only actionable defects, rerun affected validation, and repeat review
+  of the affected scope until no actionable findings remain.
 - When the active task is itself a code review, inspect the changes and report
   findings directly. Never invoke a nested `codex review` from review mode.
 - Treat an unavailable or failed Codex review as an explicit readiness blocker.

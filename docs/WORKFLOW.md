@@ -54,7 +54,9 @@
     requests one. If known gates remain, stop before opening the pull request
     and report the blockers.
 15. Require a completed Codex review loop, CI validation, applicable security
-    checks, and a fresh independent review on the latest commit.
+    checks, and an independent review of the latest change. A completed
+    independent Codex review satisfies that review requirement unless repository
+    policy requires another reviewer or human approval.
 16. Fix or explain every review item, resolve completed threads, and repeat the
     checks after every push.
 17. Complete and document required manual testing on the real target

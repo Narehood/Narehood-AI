@@ -44,7 +44,8 @@
 - [x] Resolve and stage the Titus refresh while retaining Narehood branding,
   T3 Code and provider support, public-safe configuration, skills, templates,
   and installers.
-- [ ] Validate the merged tree and complete the built-in Codex review loop.
+- [x] Validate the merged tree.
+- [x] Complete the built-in Codex review loop for the full PR diff.
 - [x] Publish a refresh PR targeting only `Narehood/Narehood-AI`:
   [PR #5](https://github.com/Narehood/Narehood-AI/pull/5).
 - [ ] Import `Narehood/tstack` with original history and Theo's attribution
@@ -52,19 +53,21 @@
 - [ ] Schedule updates from `Narehood/tstack` to open or update a sync PR for
   review; never merge those updates automatically.
 
-Validation evidence: `./scripts/validate.sh` passes with 19 skills; all 15
-changed skill entrypoints pass the skill validator. Preservation checks confirm
+Validation evidence: `./scripts/validate.sh` passes with 19 skills; all 19
+skill entrypoints pass the skill validator. Preservation checks confirm
 the frontend skill, provider layout docs, STATUS template, installers, and
 ignore rules are unchanged. Windows installer integration was skipped locally
 because symlink creation requires Developer Mode or administrator privileges.
-The live PhotoCraft MCP test was not run because its external CLI is absent.
+The live PhotoCraft MCP test passes against the official PhotoCraft 0.16.0
+portable CLI after SHA-256 verification, including preview, native save/reopen,
+and existing and new out-of-root export destinations.
 
-Review blocker: two built-in `codex review --uncommitted` attempts could
-not inspect the repository because the CLI's execution policy rejected
-read-only commands. The user requested publishing the refresh PR with this
-review still outstanding. Publication does not establish merge readiness;
-complete the required review before merging the refresh or starting the
-TStack import.
+Built-in Codex review is complete for the full PR diff and uncommitted fixes,
+using custom stdin review with the full diff and supporting files supplied and
+shell tools disabled. Native repository inspection remains blocked by the local
+CLI policy; no permissions were relaxed. The review loop fixed two actionable
+findings and ended with no actionable defects. Fresh CI and review state on the
+published head must pass before merging the refresh or starting the TStack import.
 
 ## Pending phase: Enforced repository governance
 
