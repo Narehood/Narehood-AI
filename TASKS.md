@@ -45,7 +45,8 @@
   T3 Code and provider support, public-safe configuration, skills, templates,
   and installers.
 - [ ] Validate the merged tree and complete the built-in Codex review loop.
-- [ ] Publish a refresh PR targeting only `Narehood/Narehood-AI`.
+- [x] Publish a refresh PR targeting only `Narehood/Narehood-AI`:
+  [PR #5](https://github.com/Narehood/Narehood-AI/pull/5).
 - [ ] Import `Narehood/tstack` with original history and Theo's attribution
   after the upstream refresh.
 - [ ] Schedule updates from `Narehood/tstack` to open or update a sync PR for
