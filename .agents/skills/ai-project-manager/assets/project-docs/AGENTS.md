@@ -51,8 +51,9 @@ permission on the human's side:
 - Preserve unrelated changes.
 - Do not expose or commit credentials, sessions, private data, or environment
   files.
-- Ask before destructive operations, migrations, deployments, or changes that
-  require a product or architecture decision.
+- Require authorization for destructive operations, migrations, and
+  deployments; reuse authorization already given. Ask about unresolved product
+  or architecture decisions only when they materially affect the result.
 - Do not burn expensive paid builds or deploys mid-feature; batch them after
   the feature work is ready.
 - In public repositories, never commit personal absolute paths, private deploy

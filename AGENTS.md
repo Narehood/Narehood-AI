@@ -28,6 +28,16 @@ private product operations, secret values, T3 Code userdata, or pairing tokens.
 
 ## Pull requests
 
+All remote writes for this project must target `Narehood/Narehood-AI`.
+Treat every other repository, including the `upstream` remote and
+`Narehood/tstack`, as a read-only source. Never create or modify pull requests,
+issues, comments, reviews, releases, workflows, or branches elsewhere.
+Before a remote write, verify the exact owner and repository. GitHub commands
+must use an explicit `--repo Narehood/Narehood-AI`, full target URL, or API path;
+pushes must explicitly name the verified destination remote and branch. This
+boundary applies to skills, scripts, and delegated agents, including autonomous
+shipping workflows.
+
 Unless the user explicitly says not to, or the change cannot produce a
 reviewable result:
 
@@ -94,6 +104,7 @@ Read only the documents needed for the task:
 - `docs/CLAUDE_LAYOUT.md` for Claude Code discovery boundaries.
 - `docs/CURSOR_LAYOUT.md` for Cursor and Cloud Agent discovery boundaries.
 - `docs/SKILLS.md` when creating or changing skills.
+- `docs/ASTRA.md` when changing model defaults or auditing agent efficiency.
 - `docs/WORKFLOW.md` when changing the repository development workflow.
 
 ## Verification

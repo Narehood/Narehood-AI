@@ -38,7 +38,34 @@
   (`docs/CODEX_LAYOUT.md`, `docs/CLAUDE_LAYOUT.md`, `docs/CURSOR_LAYOUT.md`).
 - [x] Run `./scripts/validate.sh` after the retarget.
 
-## Current phase: Enforced repository governance
+## Current phase: Upstream refresh before TStack integration
+
+- [x] Compare incoming upstream commits with deliberate Narehood fork changes.
+- [x] Resolve and stage the Titus refresh while retaining Narehood branding,
+  T3 Code and provider support, public-safe configuration, skills, templates,
+  and installers.
+- [ ] Validate the merged tree and complete the built-in Codex review loop.
+- [ ] Publish a refresh PR targeting only `Narehood/Narehood-AI`.
+- [ ] Import `Narehood/tstack` with original history and Theo's attribution
+  after the upstream refresh.
+- [ ] Schedule updates from `Narehood/tstack` to open or update a sync PR for
+  review; never merge those updates automatically.
+
+Validation evidence: `./scripts/validate.sh` passes with 19 skills; all 15
+changed skill entrypoints pass the skill validator. Preservation checks confirm
+the frontend skill, provider layout docs, STATUS template, installers, and
+ignore rules are unchanged. Windows installer integration was skipped locally
+because symlink creation requires Developer Mode or administrator privileges.
+The live PhotoCraft MCP test was not run because its external CLI is absent.
+
+Review blocker: two built-in `codex review --uncommitted` attempts could
+not inspect the repository because the CLI's execution policy rejected
+read-only commands. The user requested publishing the refresh PR with this
+review still outstanding. Publication does not establish merge readiness;
+complete the required review before merging the refresh or starting the
+TStack import.
+
+## Pending phase: Enforced repository governance
 
 - [ ] Configure a default-branch ruleset after CI check names exist remotely.
 - [ ] Require pull requests, successful validation, and conversation resolution.
