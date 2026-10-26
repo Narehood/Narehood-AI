@@ -94,6 +94,22 @@ if [[ -n "$python_cmd" ]]; then
     "$test_codex_home/config.toml" || fail "generated config is invalid TOML"
   "$python_cmd" -c 'import pathlib, sys; tomllib = __import__("tomllib" if sys.version_info >= (3, 11) else "tomli"); config = tomllib.loads(pathlib.Path(sys.argv[1]).read_text()); raise SystemExit(config.get("features", {}).get("fast_mode") is not False)' \
     "$test_codex_home/config.toml" || fail "generated config must disable features.fast_mode by default"
+  if ! "$python_cmd" - "$test_codex_home/config.toml" <<'PY'
+import pathlib
+import sys
+
+tomllib = __import__("tomllib" if sys.version_info >= (3, 11) else "tomli")
+config = tomllib.loads(pathlib.Path(sys.argv[1]).read_text())
+server = config.get("mcp_servers", {}).get("photocraft", {})
+assert server.get("command") == "photocraft-cli", "PhotoCraft command missing"
+assert server.get("args") == [
+    "mcp", "--automation-read-root", ".", "--automation-write-root", "."
+], "PhotoCraft roots differ from the startup directory"
+assert server.get("required") is False, "PhotoCraft must remain optional"
+PY
+  then
+    fail "generated config must enable the optional default PhotoCraft server"
+  fi
 fi
 for preserved_line in \
   'notify = [' \
@@ -109,6 +125,7 @@ done
 assert_link "$test_codex_home/rules" "$repo_root/codex-home/rules"
 assert_link "$test_codex_home/ollama.config.toml" "$repo_root/codex-home/ollama.config.toml"
 assert_link "$test_codex_home/llamacpp.config.toml" "$repo_root/codex-home/llamacpp.config.toml"
+assert_link "$test_codex_home/photocraft.config.toml" "$repo_root/codex-home/photocraft.config.toml"
 
 for skill_dir in "$repo_root"/.agents/skills/*; do
   [[ -d "$skill_dir" ]] || continue

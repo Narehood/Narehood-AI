@@ -146,11 +146,30 @@ The reusable workflow separates planning from pull-request readiness:
 - `$ai-project-manager` reads or creates `AGENTS.md`, `SPEC.md`, `ROADMAP.md`,
   `TASKS.md`, and optional `STATUS.md`, pauses at plan-approval boundaries, and
   executes one reviewable phase at a time.
-- `$pr-readiness` validates the final diff, runs `codex review --uncommitted`
-  until no actionable findings remain, records manual testing, and verifies CI
-  and review state before merge.
+- `$pr-readiness` validates the final diff and selects built-in Codex review
+  for uncommitted work, the actual target branch, or a commit. It resolves
+  actionable findings, records manual testing, and verifies CI before merge.
+- Completed changes are committed in validated batches under the global
+  instructions. Pushes and pull requests still require authorization.
 
 See [docs/WORKFLOW.md](docs/WORKFLOW.md) for the complete lifecycle.
+
+## Codex defaults
+
+Portable Codex defaults use GPT-6 Astra with medium reasoning, high reasoning
+in Plan mode, and low verbosity. Fast-mode selection is disabled and no
+priority service tier is requested. See [docs/ASTRA.md](docs/ASTRA.md) for the
+dated rationale, effort overrides, security boundaries, and upstream skill audit.
+
+## PhotoCraft image editing
+
+The default configuration connects Codex to the native `photocraft-cli mcp`
+server for document creation, shape commands, previews, and image export.
+Install the CLI, run the Narehood AI installer to install the skill and configuration,
+then restart Codex. Start sessions from your artwork directory; file access is
+scoped there. The optional `codex --profile photocraft` makes server startup
+required, while ordinary sessions can start on machines without the CLI. See
+[PhotoCraft setup and verification](docs/PHOTOCRAFT.md).
 
 ## Local models (Codex)
 

@@ -92,6 +92,19 @@ EXAMPLE_RUNTIME_PATH = "example"
     $installedConfig = Get-Item -LiteralPath $installedConfigPath -Force
     Assert-Condition ($installedConfig.LinkType -ne 'SymbolicLink') "Expected generated config file: $installedConfigPath"
     $installedConfigContent = [System.IO.File]::ReadAllText($installedConfigPath)
+    $photocraftSettings = [regex]::Match(
+        $installedConfigContent,
+        '(?ms)^\[mcp_servers\.photocraft\]\r?\n(?<settings>.*?)(?=^\[|\z)'
+    ).Groups['settings'].Value
+    foreach ($expectedSetting in @(
+        'command = "photocraft-cli"',
+        'args = ["mcp", "--automation-read-root", ".", "--automation-write-root", "."]',
+        'required = false'
+    )) {
+        Assert-Condition (
+            [regex]::IsMatch($photocraftSettings, "(?m)^$([regex]::Escape($expectedSetting))`r?$")
+        ) "Generated config is missing a default PhotoCraft setting: $expectedSetting"
+    }
     $escapedGitHubRoot = (Join-Path $testUserHome 'github').Replace('\', '\\')
     $escapedGitHubRepo = $testGitHubRepo.Replace('\', '\\')
     Assert-Condition (
@@ -116,6 +129,7 @@ EXAMPLE_RUNTIME_PATH = "example"
     Assert-Link (Join-Path $testCodexHome 'rules') (Join-Path $repoRoot 'codex-home/rules')
     Assert-Link (Join-Path $testCodexHome 'ollama.config.toml') (Join-Path $repoRoot 'codex-home/ollama.config.toml')
     Assert-Link (Join-Path $testCodexHome 'llamacpp.config.toml') (Join-Path $repoRoot 'codex-home/llamacpp.config.toml')
+    Assert-Link (Join-Path $testCodexHome 'photocraft.config.toml') (Join-Path $repoRoot 'codex-home/photocraft.config.toml')
 
     Get-ChildItem -LiteralPath (Join-Path $repoRoot '.agents/skills') -Directory |
         ForEach-Object {

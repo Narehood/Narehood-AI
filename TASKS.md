@@ -38,7 +38,38 @@
   (`docs/CODEX_LAYOUT.md`, `docs/CLAUDE_LAYOUT.md`, `docs/CURSOR_LAYOUT.md`).
 - [x] Run `./scripts/validate.sh` after the retarget.
 
-## Current phase: Enforced repository governance
+## Current phase: Upstream refresh before TStack integration
+
+- [x] Compare incoming upstream commits with deliberate Narehood fork changes.
+- [x] Resolve and stage the Titus refresh while retaining Narehood branding,
+  T3 Code and provider support, public-safe configuration, skills, templates,
+  and installers.
+- [x] Validate the merged tree.
+- [x] Complete the built-in Codex review loop for the full PR diff.
+- [x] Publish a refresh PR targeting only `Narehood/Narehood-AI`:
+  [PR #5](https://github.com/Narehood/Narehood-AI/pull/5).
+- [ ] Import `Narehood/tstack` with original history and Theo's attribution
+  after the upstream refresh.
+- [ ] Schedule updates from `Narehood/tstack` to open or update a sync PR for
+  review; never merge those updates automatically.
+
+Validation evidence: `./scripts/validate.sh` passes with 19 skills; all 19
+skill entrypoints pass the skill validator. Preservation checks confirm
+the frontend skill, provider layout docs, STATUS template, installers, and
+ignore rules are unchanged. Windows installer integration was skipped locally
+because symlink creation requires Developer Mode or administrator privileges.
+The live PhotoCraft MCP test passes against the official PhotoCraft 0.16.0
+portable CLI after SHA-256 verification, including preview, native save/reopen,
+and existing and new out-of-root export destinations.
+
+Built-in Codex review is complete for the full PR diff and uncommitted fixes,
+using custom stdin review with the full diff and supporting files supplied and
+shell tools disabled. Native repository inspection remains blocked by the local
+CLI policy; no permissions were relaxed. The review loop fixed two actionable
+findings and ended with no actionable defects. Fresh CI and review state on the
+published head must pass before merging the refresh or starting the TStack import.
+
+## Pending phase: Enforced repository governance
 
 - [ ] Configure a default-branch ruleset after CI check names exist remotely.
 - [ ] Require pull requests, successful validation, and conversation resolution.
